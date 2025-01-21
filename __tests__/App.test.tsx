@@ -41,4 +41,15 @@ describe('String Calculator', () => {
     expect(getByText('Sum: 6')).toBeTruthy();
   });
 
+  it('should handle new lines between numbers', () => {
+    const { getByPlaceholderText, getByText } = render(<App />);
+    const input = getByPlaceholderText('Enter string of numbers');
+    const button = getByText('Calculate');
+
+    fireEvent.changeText(input, '1\n2,3');
+    fireEvent.press(button);
+
+    expect(getByText('Sum: 6')).toBeTruthy();
+  });
+
 });
