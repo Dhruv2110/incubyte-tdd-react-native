@@ -7,11 +7,26 @@ import React from 'react';
 import App from '../App';
 
 // Note: import explicitly to use the types shipped with jest.
-import {it} from '@jest/globals';
+import {describe, expect, it} from '@jest/globals';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
 
+import { render, fireEvent } from '@testing-library/react-native';
+
 it('renders correctly', () => {
   renderer.create(<App />);
+});
+
+describe('String Calculator', () => {
+  it('should display the input number', () => {
+    const { getByPlaceholderText, getByText } = render(<App />);
+    const input = getByPlaceholderText('Enter string of numbers');
+    const button = getByText('Calculate');
+
+    fireEvent.changeText(input, '2');
+    fireEvent.press(button);
+
+    expect(getByText(`Sum: 2`)).toBeTruthy();
+  });
 });

@@ -7,7 +7,12 @@ const App = (): React.JSX.Element => {
   const [result, setResult] = useState<number>(0);
 
   const onCalculate = () => {
-
+    if (input === '') {
+      setResult(0);
+      return;
+    } else {
+      setResult(parseInt(input));
+    }
   }
 
   return (
