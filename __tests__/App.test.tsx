@@ -5,9 +5,9 @@
 import 'react-native';
 import React from 'react';
 import App from '../App';
-
+import { Alert } from 'react-native';
 // Note: import explicitly to use the types shipped with jest.
-import {describe, expect, it} from '@jest/globals';
+import {describe, expect, it, jest} from '@jest/globals';
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer';
@@ -19,6 +19,7 @@ it('renders correctly', () => {
 });
 
 describe('String Calculator', () => {
+
   it('should display the input number', () => {
     const { getByPlaceholderText, getByText } = render(<App />);
     const input = getByPlaceholderText('Enter string of numbers');
@@ -64,6 +65,9 @@ describe('String Calculator', () => {
   });
 
   it('should throw an error for negative numbers', () => {
+
+    jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+
     const { getByPlaceholderText, getByText } = render(<App />);
     const input = getByPlaceholderText('Enter string of numbers');
     const button = getByText('Calculate');
@@ -71,7 +75,8 @@ describe('String Calculator', () => {
     fireEvent.changeText(input, '1,-2,3,-4');
     fireEvent.press(button);
 
-    expect(() => getByText('Sum:')).toThrow('negative number(s) not allowed: -2, -4');
+    expect(Alert.alert).toHaveBeenCalledWith('negative number(s) not allowed: -2, -4');
+
   });
 
 });

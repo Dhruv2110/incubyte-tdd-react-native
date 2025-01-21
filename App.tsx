@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
 const App = (): React.JSX.Element => {
 
@@ -12,23 +12,29 @@ const App = (): React.JSX.Element => {
       return;
     } else {
 
-      let nums = input;
-      let regex = /[\n,]/;
-      if (input.startsWith('//')) {
-        const parts = input.split('\n');
-        regex = new RegExp(parts[0][2]);
-        nums = parts[1];
+      try {
+        let nums = input;
+        let regex = /[\n,]/;
+        if (input.startsWith('//')) {
+          const parts = input.split('\n');
+          regex = new RegExp(parts[0][2]);
+          nums = parts[1];
+        }
+
+        const numbers = nums.split(regex);
+
+        const negativeNums = numbers.filter((num) => parseInt(num) < 0);
+        if (negativeNums.length > 0) {
+          setResult(0)
+          throw new Error(`negative number(s) not allowed: ${negativeNums.join(', ')}`);
+        }
+
+        const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
+        setResult(sum);
+
+      } catch (error: any) {
+        Alert.alert(error?.message)
       }
-
-      const numbers = nums.split(regex);
-
-      const negativeNums = numbers.filter((num) => parseInt(num) < 0);
-      if (negativeNums.length > 0) {
-        throw new Error(`negative number(s) not allowed: ${negativeNums.join(', ')}`);
-      }
-
-      const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
-      setResult(sum);
     }
   }
 
