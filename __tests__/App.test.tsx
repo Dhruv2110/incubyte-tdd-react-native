@@ -52,4 +52,15 @@ describe('String Calculator', () => {
     expect(getByText('Sum: 6')).toBeTruthy();
   });
 
+  it('should handle custom delimiters', () => {
+    const { getByPlaceholderText, getByText } = render(<App />);
+    const input = getByPlaceholderText('Enter string of numbers');
+    const button = getByText('Calculate');
+
+    fireEvent.changeText(input, '//;\n1;2');
+    fireEvent.press(button);
+
+    expect(getByText('Sum: 3')).toBeTruthy();
+  });
+
 });
