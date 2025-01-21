@@ -11,7 +11,9 @@ const App = (): React.JSX.Element => {
       setResult(0);
       return;
     } else {
-      setResult(parseInt(input));
+      const numbers = input.split(',');
+      const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
+      setResult(sum);
     }
   }
 
