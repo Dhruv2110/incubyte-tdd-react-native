@@ -63,4 +63,15 @@ describe('String Calculator', () => {
     expect(getByText('Sum: 3')).toBeTruthy();
   });
 
+  it('should throw an error for negative numbers', () => {
+    const { getByPlaceholderText, getByText } = render(<App />);
+    const input = getByPlaceholderText('Enter string of numbers');
+    const button = getByText('Calculate');
+
+    fireEvent.changeText(input, '1,-2,3,-4');
+    fireEvent.press(button);
+
+    expect(() => getByText('Sum:')).toThrow('negative number(s) not allowed: -2, -4');
+  });
+
 });

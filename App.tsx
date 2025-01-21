@@ -21,6 +21,12 @@ const App = (): React.JSX.Element => {
       }
 
       const numbers = nums.split(regex);
+
+      const negativeNums = numbers.filter((num) => parseInt(num) < 0);
+      if (negativeNums.length > 0) {
+        throw new Error(`negative number(s) not allowed: ${negativeNums.join(', ')}`);
+      }
+
       const sum = numbers.reduce((acc, num) => acc + parseInt(num), 0);
       setResult(sum);
     }
